@@ -37,7 +37,7 @@ public class AlbumManager implements AlbumService {
 
   @Override
   public CreateAlbumResponse add(CreateAlbumRequest request) {
-    var album= mapper.map(request, Album.class);
+    var album = mapper.map(request, Album.class);
     album.setId(UUID.randomUUID());
     album.setReleaseDate(LocalDateTime.now());
     repository.save(album);
@@ -46,8 +46,10 @@ public class AlbumManager implements AlbumService {
 
   @Override
   public UpdateAlbumResponse update(UUID id, UpdateAlbumRequest request) {
-    var album= mapper.map(request, Album.class);
+    var album = mapper.map(request, Album.class);
     album.setId(id);
+    repository.save(album);
+    return mapper.map(album, UpdateAlbumResponse.class);
   }
 
   @Override
