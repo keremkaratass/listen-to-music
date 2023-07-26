@@ -10,19 +10,23 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MusicService {
-    List<GetAllMusicsResponse> getAll();
+  List<GetAllMusicsResponse> getAll();
 
-    GetMusicResponse getById(UUID id);
+  GetMusicResponse getById(UUID id);
 
-    CreateMusicResponse add(CreateMusicRequest request);
+  CreateMusicResponse add(CreateMusicRequest request);
 
-    UpdateMusicResponse update(UUID id, UpdateMusicRequest request);
-    void delete(UUID id);
+  UpdateMusicResponse update(UUID id, UpdateMusicRequest request);
 
-    List<GetAllMusicsResponse> getAllByFavoriteNumber(int page, int size);
+  void delete(UUID id);
 
+  List<GetAllMusicsResponse> getAllByFavoriteNumber(int page, int size);
 
+  List<GetAllMusicsResponse> searchMusicByArtist(String artist);
 
+  List<GetAllMusicsResponse> searchMusicByAlbum(String album);
 
+  List<GetAllMusicsResponse> searchMusicByGenre(String genre);
 
+  List<GetAllMusicsResponse> searchMusicByArtistAndGenre(String artist, String genre);
 }

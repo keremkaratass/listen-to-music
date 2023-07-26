@@ -54,4 +54,25 @@ public class MusicsController {
       @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
     return service.getAllByFavoriteNumber(page, size);
   }
+
+  @GetMapping("/searchByArtist")
+  public List<GetAllMusicsResponse> searchMusicByArtist(@RequestParam String artist) {
+    return service.searchMusicByArtist(artist);
+  }
+
+  @GetMapping("/searchByAlbum")
+  public List<GetAllMusicsResponse> searchMusicByAlbum(@RequestParam String album) {
+    return service.searchMusicByAlbum(album);
+  }
+
+  @GetMapping("/searchByGenre")
+  public List<GetAllMusicsResponse> searchMusicByGenre(@RequestParam String genre) {
+    return service.searchMusicByGenre(genre);
+  }
+
+  @GetMapping("/searchByArtistAndGenre")
+  public List<GetAllMusicsResponse> searchMusicByArtistAndGenre(
+      @RequestParam String artist, @RequestParam String genre) {
+    return service.searchMusicByArtistAndGenre(artist, genre);
+  }
 }

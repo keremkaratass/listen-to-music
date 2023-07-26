@@ -64,9 +64,33 @@ public class MusicManager implements MusicService {
     int fromIndex = (page - 1) * size;
     int toIndex = Math.min(fromIndex + size, musics.size());
 
-    return musics.subList(fromIndex, toIndex)
-            .stream()
-            .map(music -> mapper.map(music, GetAllMusicsResponse.class))
-            .toList();
+    return musics.subList(fromIndex, toIndex).stream()
+        .map(music -> mapper.map(music, GetAllMusicsResponse.class))
+        .toList();
+  }
+
+  @Override
+  public List<GetAllMusicsResponse> searchMusicByArtist(String artist) {
+    List<Music> musics = repository.findByArtistNameIgnoreCaseContaining(artist);
+    return musics.stream().map(music -> mapper.map(music, GetAllMusicsResponse.class)).toList();
+  }
+
+  @Override
+  public List<GetAllMusicsResponse> searchMusicByAlbum(String album) {
+    List<Music> musics = repository.findByAlbumNameIgnoreCaseContaining(album);
+    return musics.stream().map(music -> mapper.map(music, GetAllMusicsResponse.class)).toList();
+  }
+
+  @Override
+  public List<GetAllMusicsResponse> searchMusicByGenre(String genre) {
+    List<Music> musics = repository.findByGenreNameIgnoreCaseContaining(genre);
+    return musics.stream().map(music -> mapper.map(music, GetAllMusicsResponse.class)).toList();
+  }
+
+  public List<GetAllMusicsResponse> searchMusicByArtistAndGenre(String artist, String genre) {
+    List<Music> musics =
+        repository.findByArtistNameIgnoreCaseContainingAndGenreNameIgnoreCaseContaining(
+            artist, genre);
+    return musics.stream().map(music -> mapper.map(music, GetAllMusicsResponse.class)).toList();
   }
 }

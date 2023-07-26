@@ -1,13 +1,10 @@
 package com.atmosware.listentomusic.business.dto.responses.create;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -17,7 +14,7 @@ public class CreateMusicResponse {
   private UUID id;
   private UUID albumId;
   private UUID genreId;
+  private UUID artistId;
   private int favoriteNumber;
   private String name;
-
 }

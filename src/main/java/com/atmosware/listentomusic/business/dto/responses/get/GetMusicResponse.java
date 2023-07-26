@@ -12,11 +12,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetMusicResponse {
-    private UUID id;
-    private UUID albumId;
-    private UUID genreId;
-    private int favoriteNumber;
-    private String name;
-    private String albumName;
-    private String genreName;
+  private UUID id;
+  private UUID albumId;
+  private UUID genreId;
+  private UUID artistId;
+  private int favoriteNumber;
+  private String name;
+  private String albumName;
+  private String genreName;
+  private String artistName;
 }

@@ -16,5 +16,6 @@ import java.util.UUID;
 public class CreateMusicRequest {
   @NotNull private UUID albumId;
   @NotNull private UUID genreId;
+  @NotNull private UUID artistId;
   @NotBlank private String name;
 }

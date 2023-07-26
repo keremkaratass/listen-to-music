@@ -1,12 +1,12 @@
 package com.atmosware.listentomusic.entities;
 
+import com.atmosware.listentomusic.entities.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,17 +14,16 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "artists")
-public class Artist {
+@Table(name = "admins")
+public class Admin {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   private String name;
 
-  @OneToMany(mappedBy = "artist")
-  private List<Album> albums;
+  private String password;
 
-  @OneToMany(mappedBy = "artist")
-  private List<Music> musics;
+  @Enumerated(EnumType.STRING)
+  private UserRole role;
 }

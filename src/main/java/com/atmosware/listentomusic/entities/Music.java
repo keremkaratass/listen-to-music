@@ -31,6 +31,10 @@ public class Music {
   @JoinColumn(name = "genre_id")
   private Genre genre;
 
+  @ManyToOne
+  @JoinColumn(name = "artist_id")
+  private Artist artist;
+
   @ManyToMany(mappedBy = "musics")
   private List<User> users;
 }

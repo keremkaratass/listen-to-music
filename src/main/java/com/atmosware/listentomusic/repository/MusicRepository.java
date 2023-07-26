@@ -7,6 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface MusicRepository extends JpaRepository<Music, UUID> {
-    @Query("SELECT m FROM Music m ORDER BY m.favoriteNumber DESC")
-    List<Music> getMusicByFavoriteNumber();
+  @Query("SELECT m FROM Music m ORDER BY m.favoriteNumber DESC")
+  List<Music> getMusicByFavoriteNumber();
+
+  List<Music> findByArtistNameIgnoreCaseContainingAndGenreNameIgnoreCaseContaining(
+      String artist, String genre);
+
+  List<Music> findByArtistNameIgnoreCaseContaining(String artist);
+
+  List<Music> findByAlbumNameIgnoreCaseContaining(String albumName);
+
+  List<Music> findByGenreNameIgnoreCaseContaining(String genreName);
 }

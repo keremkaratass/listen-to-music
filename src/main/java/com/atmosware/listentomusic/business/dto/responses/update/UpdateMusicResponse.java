@@ -15,6 +15,7 @@ public class UpdateMusicResponse {
   private UUID id;
   private UUID albumId;
   private UUID genreId;
+  private UUID artistId;
   private int favoriteNumber;
   private String name;
 }
