@@ -1,5 +1,6 @@
 package com.atmosware.listentomusic.business.dto.requests.create;
 
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateGenreRequest {
-  @NotBlank private String name;
+    @NotBlank private String name;
 }

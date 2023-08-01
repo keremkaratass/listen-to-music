@@ -1,5 +1,6 @@
 package com.atmosware.listentomusic.business.dto.responses.get.all;
 
+import java.io.Serializable;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllMusicsResponse {
+public class GetAllMusicsResponse implements Serializable {
   private UUID id;
   private UUID albumId;
   private UUID genreId;

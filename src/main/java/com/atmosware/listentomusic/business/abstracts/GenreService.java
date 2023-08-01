@@ -18,4 +18,5 @@ public interface GenreService {
 
     UpdateGenreResponse update(UUID id, UpdateGenreRequest request);
     void delete(UUID id);
+
 }
