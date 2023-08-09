@@ -7,6 +7,7 @@ import com.atmosware.listentomusic.business.dto.responses.create.CreateMusicResp
 import com.atmosware.listentomusic.business.dto.responses.get.GetMusicResponse;
 import com.atmosware.listentomusic.business.dto.responses.get.all.GetAllMusicsResponse;
 import com.atmosware.listentomusic.business.dto.responses.update.UpdateMusicResponse;
+import com.atmosware.listentomusic.business.rules.MusicBusinessRules;
 import com.atmosware.listentomusic.entities.Music;
 import com.atmosware.listentomusic.repository.MusicRepository;
 import java.util.List;
@@ -21,8 +22,9 @@ import org.springframework.stereotype.Service;
 @EnableCaching
 @AllArgsConstructor
 public class MusicManager implements MusicService {
-  private MusicRepository repository;
-  private ModelMapper mapper;
+  private final MusicRepository repository;
+  private final ModelMapper mapper;
+  private final MusicBusinessRules rules;
 
   @Override
   public List<GetAllMusicsResponse> getAll() {
@@ -32,12 +34,14 @@ public class MusicManager implements MusicService {
 
   @Override
   public GetMusicResponse getById(UUID id) {
+    rules.checkIfMusicExists(id);
     var music = repository.findById(id).orElseThrow();
     return mapper.map(music, GetMusicResponse.class);
   }
 
   @Override
   public CreateMusicResponse add(CreateMusicRequest request) {
+    rules.checkIfMusicExistsByName(request.getName());
     var music = mapper.map(request, Music.class);
     music.setId(UUID.randomUUID());
     repository.save(music);
@@ -54,6 +58,7 @@ public class MusicManager implements MusicService {
 
   @Override
   public void delete(UUID id) {
+    rules.checkIfMusicExists(id);
     repository.deleteById(id);
   }
 

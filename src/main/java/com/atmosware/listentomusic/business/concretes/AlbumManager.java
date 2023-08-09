@@ -7,6 +7,7 @@ import com.atmosware.listentomusic.business.dto.responses.create.CreateAlbumResp
 import com.atmosware.listentomusic.business.dto.responses.get.GetAlbumResponse;
 import com.atmosware.listentomusic.business.dto.responses.get.all.GetAllAlbumsResponse;
 import com.atmosware.listentomusic.business.dto.responses.update.UpdateAlbumResponse;
+import com.atmosware.listentomusic.business.rules.AlbumBusinessRules;
 import com.atmosware.listentomusic.entities.Album;
 import com.atmosware.listentomusic.repository.AlbumRepository;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class AlbumManager implements AlbumService {
 
   private final AlbumRepository repository;
   private final ModelMapper mapper;
+  private final AlbumBusinessRules rules;
 
   @Override
   public List<GetAllAlbumsResponse> getAll() {
@@ -31,12 +33,14 @@ public class AlbumManager implements AlbumService {
 
   @Override
   public GetAlbumResponse getById(UUID id) {
+    rules.checkIfAlbumExists(id);
     var album = repository.findById(id).orElseThrow();
     return mapper.map(album, GetAlbumResponse.class);
   }
 
   @Override
   public CreateAlbumResponse add(CreateAlbumRequest request) {
+    rules.checkIfAlbumExistsByName(request.getName());
     var album = mapper.map(request, Album.class);
     album.setId(UUID.randomUUID());
     album.setReleaseDate(LocalDateTime.now());
@@ -54,6 +58,7 @@ public class AlbumManager implements AlbumService {
 
   @Override
   public void delete(UUID id) {
+    rules.checkIfAlbumExists(id);
     repository.deleteById(id);
   }
 }

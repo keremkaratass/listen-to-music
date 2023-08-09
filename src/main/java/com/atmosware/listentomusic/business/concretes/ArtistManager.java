@@ -7,6 +7,7 @@ import com.atmosware.listentomusic.business.dto.responses.create.CreateArtistRes
 import com.atmosware.listentomusic.business.dto.responses.get.GetArtistResponse;
 import com.atmosware.listentomusic.business.dto.responses.get.all.GetAllArtistsResponse;
 import com.atmosware.listentomusic.business.dto.responses.update.UpdateArtistResponse;
+import com.atmosware.listentomusic.business.rules.ArtistBusinessRules;
 import com.atmosware.listentomusic.entities.Artist;
 import com.atmosware.listentomusic.repository.ArtistRepository;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ArtistManager implements ArtistService {
 
   private final ArtistRepository repository;
   private final ModelMapper mapper;
+  private final ArtistBusinessRules rules;
 
   @Override
   public List<GetAllArtistsResponse> getAll() {
@@ -30,12 +32,14 @@ public class ArtistManager implements ArtistService {
 
   @Override
   public GetArtistResponse getById(UUID id) {
+    rules.checkIfArtistExists(id);
     var artist = repository.findById(id).orElseThrow();
     return mapper.map(artist, GetArtistResponse.class);
   }
 
   @Override
   public CreateArtistResponse add(CreateArtistRequest request) {
+    rules.checkIfArtistExistsByName(request.getName());
     var artist = mapper.map(request, Artist.class);
     artist.setId(UUID.randomUUID());
     repository.save(artist);
@@ -52,6 +56,7 @@ public class ArtistManager implements ArtistService {
 
   @Override
   public void delete(UUID id) {
+    rules.checkIfArtistExists(id);
     repository.deleteById(id);
   }
 }

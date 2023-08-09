@@ -18,4 +18,6 @@ public interface MusicRepository extends JpaRepository<Music, UUID> {
   List<Music> findByAlbumNameIgnoreCaseContaining(String albumName);
 
   List<Music> findByGenreNameIgnoreCaseContaining(String genreName);
+
+    boolean existsByNameIgnoreCase(String name);
 }

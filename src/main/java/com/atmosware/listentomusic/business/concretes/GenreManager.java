@@ -7,6 +7,7 @@ import com.atmosware.listentomusic.business.dto.responses.create.CreateGenreResp
 import com.atmosware.listentomusic.business.dto.responses.get.GetGenreResponse;
 import com.atmosware.listentomusic.business.dto.responses.get.all.GetAllGenresResponse;
 import com.atmosware.listentomusic.business.dto.responses.update.UpdateGenreResponse;
+import com.atmosware.listentomusic.business.rules.GenreBusinessRules;
 import com.atmosware.listentomusic.entities.Genre;
 import com.atmosware.listentomusic.repository.GenreRepository;
 import java.util.List;
@@ -19,40 +20,43 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class GenreManager implements GenreService {
 
-    private final GenreRepository repository;
-    private final ModelMapper mapper;
+  private final GenreRepository repository;
+  private final ModelMapper mapper;
+  private final GenreBusinessRules rules;
 
-    @Override
-    public List<GetAllGenresResponse> getAll() {
-        var genres= repository.findAll();
-        return genres.stream().map(genre -> mapper.map(genre, GetAllGenresResponse.class)).toList();
-    }
+  @Override
+  public List<GetAllGenresResponse> getAll() {
+    var genres = repository.findAll();
+    return genres.stream().map(genre -> mapper.map(genre, GetAllGenresResponse.class)).toList();
+  }
 
-    @Override
-    public GetGenreResponse getById(UUID id) {
-        var genre= repository.findById(id).orElseThrow();
-        return mapper.map(genre,GetGenreResponse.class);
-    }
+  @Override
+  public GetGenreResponse getById(UUID id) {
+    rules.checkIfGenreExists(id);
+    var genre = repository.findById(id).orElseThrow();
+    return mapper.map(genre, GetGenreResponse.class);
+  }
 
-    @Override
-    public CreateGenreResponse add(CreateGenreRequest request) {
-        var genre= mapper.map(request, Genre.class);
-        genre.setId(UUID.randomUUID());
-        repository.save(genre);
-        return mapper.map(genre, CreateGenreResponse.class);
+  @Override
+  public CreateGenreResponse add(CreateGenreRequest request) {
+    rules.checkIfGenreExistsByName(request.getName());
+    var genre = mapper.map(request, Genre.class);
+    genre.setId(UUID.randomUUID());
+    repository.save(genre);
+    return mapper.map(genre, CreateGenreResponse.class);
+  }
 
-    }
+  @Override
+  public UpdateGenreResponse update(UUID id, UpdateGenreRequest request) {
+    var genre = mapper.map(request, Genre.class);
+    genre.setId(id);
+    repository.save(genre);
+    return mapper.map(genre, UpdateGenreResponse.class);
+  }
 
-    @Override
-    public UpdateGenreResponse update(UUID id, UpdateGenreRequest request) {
-        var genre= mapper.map(request, Genre.class);
-        genre.setId(id);
-        repository.save(genre);
-        return mapper.map(genre, UpdateGenreResponse.class);
-    }
-
-    @Override
-    public void delete(UUID id) {
-        repository.deleteById(id);
-    }
+  @Override
+  public void delete(UUID id) {
+    rules.checkIfGenreExists(id);
+    repository.deleteById(id);
+  }
 }

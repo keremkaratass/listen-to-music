@@ -42,6 +42,20 @@ public class User implements UserDetails {
       inverseJoinColumns = @JoinColumn(name = "music_id"))
   private List<Music> musics;
 
+
+
+  @ManyToMany
+  @JoinTable(
+          name = "user_follows",
+          joinColumns = @JoinColumn(name = "follower_id"),
+          inverseJoinColumns = @JoinColumn(name = "followed_id"))
+  private List<User> followedUsers;
+
+  @ManyToMany(mappedBy = "followedUsers")
+  private List<User> followers;
+
+
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return role.getAuthorities();

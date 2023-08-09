@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface GenreRepository extends JpaRepository<Genre, UUID> {
 
+    boolean existsByNameIgnoreCase(String name);
 }

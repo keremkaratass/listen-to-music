@@ -111,6 +111,11 @@ public class MusicsController {
     UUID userId = ((User) authentication.getPrincipal()).getId();
     return favoriteService.getFavoriteMusics(userId);
   }
-  
-  
+
+  @GetMapping("/followed-favorites")
+  @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+  public List<MusicDTO> getFollowedFavoriteMusics(Authentication authentication) {
+    UUID userId = ((User) authentication.getPrincipal()).getId();
+    return favoriteService.getFollowedFavoriteMusics(userId);
+  }
 }
